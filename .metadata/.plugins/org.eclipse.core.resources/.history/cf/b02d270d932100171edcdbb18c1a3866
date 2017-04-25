@@ -1,0 +1,61 @@
+import java.util.ArrayList;
+
+public class Player implements ISaveable{
+	
+	private String name;
+	private int hitPoints;
+	private int strength;
+	private String weapon;
+	
+	public Player(String n, int hp, int s) {
+		name = n;
+		hitPoints = hp;
+		strength = s;
+		weapon = "Sword";
+	}
+
+	@Override
+	public ArrayList<String> write() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void read(ArrayList<String> savedValues) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getHitPoints() {
+		return hitPoints;
+	}
+
+	public void setHitPoints(int hitPoints) {
+		this.hitPoints = hitPoints;
+	}
+
+	public int getStrength() {
+		return strength;
+	}
+
+	public void setStrength(int strength) {
+		this.strength = strength;
+	}
+
+	public String getWeapon() {
+		return weapon;
+	}
+
+	public void setWeapon(String weapon) {
+		this.weapon = weapon;
+	}
+
+}

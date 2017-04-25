@@ -1,0 +1,13 @@
+import java.util.ArrayList;
+
+public class Customer {
+	
+	private ArrayList<Double> customerTransactions;
+	private String customerName;
+	
+	public Customer(String name, double initialTransaction) {
+		customerName = name;
+		customerTransactions.add(initialTransaction);
+	}
+
+}

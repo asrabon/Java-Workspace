@@ -1,0 +1,11 @@
+import java.util.ArrayList;
+
+public class Bank {
+	
+	private ArrayList<Branch> bankBranches;
+	
+	public Bank() {
+		bankBranches = new ArrayList<Branch>();
+	}
+
+}
