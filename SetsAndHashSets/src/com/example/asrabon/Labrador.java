@@ -1,0 +1,26 @@
+package com.example.asrabon;
+
+import sun.reflect.generics.tree.Tree;
+
+/**
+ * Created by asrab on 5/6/2017.
+ */
+public class Labrador extends Dog {
+
+    public Labrador(String name) {
+        super(name);
+    }
+
+//    @Override
+//    public boolean equals(Object obj) {
+//        if(this == obj) {
+//            return true;
+//        }
+//        if(obj instanceof Labrador) {
+//            String objName = ((Labrador) obj).getName();
+//            return this.getName().equals(objName);
+//        }
+//        return false;
+//    }
+
+}

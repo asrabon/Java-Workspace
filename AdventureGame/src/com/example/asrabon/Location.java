@@ -12,15 +12,14 @@ public class Location {
     private final String descritpion;
     private final Map<String, Integer> exits;
 
-    public Location(int locationID, String descritpion) {
+    public Location(int locationID, String descritpion, Map<String, Integer> exits) {
         this.locationID = locationID;
         this.descritpion = descritpion;
-        this.exits = new HashMap<>();
+        if(exits == null) {
+            exits = new HashMap<>();
+        }
+        this.exits = new HashMap<>(exits);
         exits.put("Q", 0);
-    }
-
-    public void addExit(String direction, int location) {
-        exits.put(direction, location);
     }
 
     public int getLocationID() {
