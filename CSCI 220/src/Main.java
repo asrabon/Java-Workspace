@@ -60,6 +60,7 @@ public class Main {
 	 * @throws FileNotFoundException
 	 */
 	private static void getSortingAverages(String numberType) throws IOException, FileNotFoundException {
+		fillZeros();
 		for(int i=0; i<10; i++) {
 			//if "random" is passed in it will fill a text file with random integers
 			if(numberType.equals("random")) {
@@ -258,6 +259,14 @@ public class Main {
 			i++;
 		}
 		fileScan.close();
+	}
+
+	public static void fillZeros() {
+		for(int i=0; i<4; i++) {
+			totalInsertionTime[i] = 0;
+			totalSelectionTime[i] = 0;
+			totalHeapTime[i] = 0;
+		}
 	}
 	
 }
