@@ -2,9 +2,14 @@ package com.asrabon.todolist;
 
 import com.asrabon.todolist.datamodel.ToDoData;
 import com.asrabon.todolist.datamodel.ToDoItem;
+import javafx.application.Platform;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
@@ -12,8 +17,8 @@ import javafx.util.Callback;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class Controller {
 
@@ -27,8 +32,13 @@ public class Controller {
     private BorderPane mainBorderPane;
     @FXML
     private ContextMenu listContextMenu;
+    @FXML
+    private ToggleButton filterToggleButton;
 
-    private List<ToDoItem> todoItems;
+    private FilteredList<ToDoItem> filteredList;
+
+    private Predicate<ToDoItem> wantAllItems;
+    private Predicate<ToDoItem> wantTodaysItems;
 
     public void initialize() {
         listContextMenu = new ContextMenu();
@@ -48,7 +58,16 @@ public class Controller {
             }
         });
 
-        toDoListView.setItems(ToDoData.getInstance().getToDoItems());
+        wantAllItems = toDoItem -> true;
+        wantTodaysItems = toDoItem -> toDoItem.getDeadline().isEqual(LocalDate.now());
+
+        filteredList = new FilteredList<ToDoItem>(ToDoData.getInstance().getToDoItems(), wantAllItems);
+
+        SortedList<ToDoItem> sortedList = new SortedList<>(filteredList,
+                (item1, item2) -> item1.getDeadline().compareTo(item2.getDeadline()));
+
+//        toDoListView.setItems(ToDoData.getInstance().getToDoItems());
+        toDoListView.setItems(sortedList);
         toDoListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         toDoListView.getSelectionModel().selectFirst();
 
@@ -73,14 +92,6 @@ public class Controller {
                         }
                     }
                 };
-//                cell.emptyProperty().addListener (
-//                    (obs, wasEmpty, isNowEmpty) -> {
-//                        if(isNowEmpty) {
-//                            cell.setContextMenu(null);
-//                        } else {
-//                            cell.setContextMenu(listContextMenu);
-//                        }
-//                    });
                 return cell;
             }
         });
@@ -112,10 +123,37 @@ public class Controller {
     }
 
     @FXML
-    public void handleClickListView() {
-        ToDoItem item = (ToDoItem) toDoListView.getSelectionModel().getSelectedItem();
-        itemDetailsTextArea.setText(item.getDetails());
-        deadlineLabel.setText(item.getDeadline().toString());
+    public void handleKeyPressed (KeyEvent keyEvent) {
+        ToDoItem selectedItem = (ToDoItem) toDoListView.getSelectionModel().getSelectedItem();
+        if(selectedItem != null ) {
+            if(keyEvent.getCode().equals(KeyCode.DELETE)) {
+                deleteItem(selectedItem);
+            }
+        }
+    }
+
+    @FXML
+    public void handleFilterButton () {
+        ToDoItem selectedItem = (ToDoItem)toDoListView.getSelectionModel().getSelectedItem();
+        if(filterToggleButton.isSelected()) {
+            filteredList.setPredicate(wantTodaysItems);
+            if(filteredList.isEmpty()) {
+                itemDetailsTextArea.clear();
+                deadlineLabel.setText("");
+            } else if(filteredList.contains(selectedItem)) {
+                toDoListView.getSelectionModel().select(selectedItem);
+            } else {
+                toDoListView.getSelectionModel().selectFirst();
+            }
+        } else {
+            filteredList.setPredicate(wantAllItems);
+            toDoListView.getSelectionModel().select(selectedItem);
+        }
+    }
+
+    @FXML
+    public void handleExit() {
+        Platform.exit();
     }
 
     public void deleteItem(ToDoItem item) {

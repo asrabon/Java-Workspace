@@ -8,4 +8,6 @@ This is a test	test hahahahdasfsafasdfdsa	12-05-2017
 Yet another to-do item	this is a long description	25-05-2017
 lala to do	this is an update for data binding	02-06-2017
 This item is due tomorrow	Dentist appointment	18-05-2017
-This item is due today	do nothing	17-05-2017
+Super Early Task	should be at the top of the list	16-05-2013
+Slightly Sooner Task	should be second	07-05-2015
+Today's ToDo	should be on today's items	19-05-2017

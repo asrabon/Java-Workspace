@@ -1,11 +1,12 @@
 package com.asrabon.todolist.datamodel;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 
 /**
  * Created by Sloan on 5/15/2017.
  */
-public class ToDoItem {
+public class ToDoItem implements Comparator<ToDoItem> {
     private String shortDescription;
     private String details;
     private LocalDate deadline;
@@ -39,4 +40,10 @@ public class ToDoItem {
     public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
+
+    @Override
+    public int compare(ToDoItem o1, ToDoItem o2) {
+        return 0;
+    }
+
 }
